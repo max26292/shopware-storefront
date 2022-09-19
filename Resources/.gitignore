@@ -83,3 +83,5 @@ typings/
 app/storefront/test/app
 
 dist
+
+vendor
