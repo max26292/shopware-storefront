@@ -1,5 +1,5 @@
 {
-    "name": "max26292/shopware-storefront",
+    "name": "shopware/storefront",
     "description": "Storefront for Shopware",
     "type": "library",
     "license": "MIT",
@@ -27,7 +27,8 @@
     "extra": {
         "branch-alias": {
             "dev-master": "6.4.x-dev",
-            "dev-trunk": "6.4.x-dev"
+            "dev-trunk": "6.4.x-dev",
+            "dev-develop": "6.4.x-dev"
         }
     },
     "require": {
