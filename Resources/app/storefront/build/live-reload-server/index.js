@@ -7,7 +7,6 @@ module.exports = function createLiveReloadServer() {
         const webpack = require('webpack');
         const WebpackDevServer = require('webpack-dev-server');
         const webpackConfig = require('../../webpack.config');
-        console.log( webpackConfig.entry.storefront)
         const compiler = webpack(webpackConfig);
 
         const devServerOptions = Object.assign({}, webpackConfig.devServer, {
@@ -20,11 +19,11 @@ module.exports = function createLiveReloadServer() {
             proxy:{
                 '/_webpack_hot_proxy_/':{
                     target:'http://localhost:9999',
-                    // pathRewrite: { '^/_webpack_hot_proxy_': '' },
+                    pathRewrite: { '^/_webpack_hot_proxy_/': '' },
                 },
                 '/sockjs-node/ ':{
                     target:'http://localhost:9999',
-                    // pathRewrite: { '^/sockjs': '' },
+                    pathRewrite: { '^/sockjs/': '' },
                 }
             }
         });

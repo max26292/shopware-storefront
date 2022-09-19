@@ -496,8 +496,6 @@ let webpackConfig = {
     target: 'web'
 };
 
-
-
 const injector = new WebpackPluginInjector('var/plugins.json', webpackConfig, 'storefront');
 webpackConfig = injector.webpackConfig;
 
