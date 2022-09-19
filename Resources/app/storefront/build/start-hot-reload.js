@@ -12,10 +12,9 @@ server.then(() => {
     // first value of array is the http protocol
     const [schema, domainWithPort] = fullUrl.split('://');
     const [domain, port] = domainWithPort.split(':');
-
     const proxyServerOptions = {
         originalHost: domain,
-        appPort: port || 80,
+        appPort: port || '80',
         proxyHost: proxyUrl.hostname,
         proxyPort: parseInt(proxyPort || 9998),
     };

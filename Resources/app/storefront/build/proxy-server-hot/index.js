@@ -10,17 +10,17 @@ const { spawn } = require('child_process');
 module.exports = function createProxyServer({ appPort, originalHost, proxyHost, proxyPort }) {
     const proxyUrl = proxyPort !== 80 && proxyPort !== 443 ? `${proxyHost}:${proxyPort}`: proxyHost;
     const originalUrl = appPort !== 80 && appPort !== 443 ? `${originalHost}:${appPort}` : originalHost;
-
+    const storefrontURL = process.env.STOREFRONT_URL;
+    
     // Create the HTTP proxy
     const server = createServer((client_req, client_res) => {
         try {
             //reject the connection when requesting from the wrong host
             const requestHost = client_req.hostname || client_req.headers.host;
-            if (requestHost.split(':')[0] !== proxyHost) {
-                //noinspection ExceptionCaughtLocallyJS
-                throw 'Rejecting request "' + client_req.method + ' ' + proxyHost + client_req.url + '" on proxy server for "' + proxyUrl + '"';
-            }
-
+            // if (requestHost.split(':')[0] !== proxyHost) {
+            //     //noinspection ExceptionCaughtLocallyJS
+            //     throw 'Rejecting request "' + client_req.method + ' ' + proxyHost + client_req.url + '" on proxy server for "' + proxyUrl + '"';
+            // }
             const requestOptions = {
                 host: originalHost,
                 port: appPort,
@@ -28,22 +28,37 @@ module.exports = function createProxyServer({ appPort, originalHost, proxyHost, 
                 method: client_req.method,
                 headers: {
                     ...client_req.headers,
-                    host: originalUrl,
+                    host: storefrontURL?storefrontURL:'localhost',
                     'hot-reload-mode': true,
                     'accept-encoding': 'identity',
                 },
             };
 
-            // Assets
+            // // Assets
             if (client_req.url.indexOf('/_webpack_hot_proxy_/') === 0) {
-                requestOptions.host = '127.0.0.1';
+                requestOptions.host = 'localhost';
                 requestOptions.port = process.env.STOREFRONT_ASSETS_PORT || 9999;
                 requestOptions.path = requestOptions.path.substr(20);
+                // requestOptions.headers={
+                //     host:'localhost:9999',
+                //     'hot-reload-mode': true,
+                //     'accept-encoding': 'identity',
+                // }
+            }
+            if (client_req.url.indexOf('/_webpack_hot_proxy_/js/storefront.js') === 0) {
+                requestOptions.host = 'localhost';
+                requestOptions.port = process.env.STOREFRONT_ASSETS_PORT || 9999;
+                requestOptions.path = '/storefront/js/storefront.js'
+                // requestOptions.headers={
+                //     host:'localhost:9999',
+                //     'hot-reload-mode': true,
+                //     'accept-encoding': 'identity',
+                // }
             }
 
             // Hot reload updates
             if (client_req.url.indexOf('/sockjs-node/') === 0 || client_req.url.indexOf('hot-update.json') !== -1 || client_req.url.indexOf('hot-update.js') !== -1) {
-                requestOptions.host = '127.0.0.1';
+                requestOptions.host = 'localhost';
                 requestOptions.port = process.env.STOREFRONT_ASSETS_PORT || 9999;
             }
 

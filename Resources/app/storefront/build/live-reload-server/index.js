@@ -7,20 +7,32 @@ module.exports = function createLiveReloadServer() {
         const webpack = require('webpack');
         const WebpackDevServer = require('webpack-dev-server');
         const webpackConfig = require('../../webpack.config');
-
+        console.log( webpackConfig.entry.storefront)
         const compiler = webpack(webpackConfig);
 
         const devServerOptions = Object.assign({}, webpackConfig.devServer, {
             open: false,
-            stats: {
-                colors: true,
-            },
+            allowedHosts:'all',
+            // stats: {
+            //     colors: true,
+            // },
+            // public: 'http://localhost:98',
+            proxy:{
+                '/_webpack_hot_proxy_/':{
+                    target:'http://localhost:9999',
+                    // pathRewrite: { '^/_webpack_hot_proxy_': '' },
+                },
+                '/sockjs-node/ ':{
+                    target:'http://localhost:9999',
+                    // pathRewrite: { '^/sockjs': '' },
+                }
+            }
         });
 
         // start the normal webpack dev server for hot reloading the files
-        const server = new WebpackDevServer(compiler, devServerOptions);
+        const server = new WebpackDevServer(devServerOptions,compiler );
 
-        server.listen(devServerOptions.port, '0.0.0.0', (err) => {
+        server.start(devServerOptions.port, '0.0.0.0', (err) => {
             if (err) {
                 reject(err);
             }
