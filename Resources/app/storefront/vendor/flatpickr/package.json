@@ -79,8 +79,4 @@
     "last 2 versions",
     "safari >= 7"
   ]
-
-,"_resolved": "https://registry.npmjs.org/flatpickr/-/flatpickr-4.6.13.tgz"
-,"_integrity": "sha512-97PMG/aywoYpB4IvbvUJi0RQi8vearvU0oov1WW3k0WZPBMrTQVqekSX5CjSG/M4Q3i6A/0FKXC7RyAoAUUSPw=="
-,"_from": "flatpickr@4.6.13"
 }
