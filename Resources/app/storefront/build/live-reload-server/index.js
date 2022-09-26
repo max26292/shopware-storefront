@@ -16,16 +16,16 @@ module.exports = function createLiveReloadServer() {
             //     colors: true,
             // },
             // public: 'http://localhost:98',
-            proxy:{
-                '/_webpack_hot_proxy_/':{
-                    target:'http://localhost:9999',
-                    pathRewrite: { '^/_webpack_hot_proxy_/': '' },
-                },
-                '/sockjs-node/ ':{
-                    target:'http://localhost:9999',
-                    pathRewrite: { '^/sockjs/': '' },
-                }
-            }
+            // proxy:{
+            //     '/_webpack_hot_proxy_/':{
+            //         target:'http://localhost:9999',
+            //         pathRewrite: { '^/_webpack_hot_proxy_/': '' },
+            //     },
+            //     '/sockjs-node/ ':{
+            //         target:'http://localhost:9999',
+            //         pathRewrite: { '^/sockjs/': '' },
+            //     }
+            // }
         });
 
         // start the normal webpack dev server for hot reloading the files
